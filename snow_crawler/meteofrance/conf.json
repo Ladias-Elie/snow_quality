@@ -1,0 +1,11 @@
+{
+    "host" : "localhost",
+    "port" : 27017,
+    "database" : "meteo_neige",
+    "meteo_collection" : "snow",
+    "meteo_url" : "https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Nivo/nivo.########.csv",
+    "meteo_history_url": "https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Nivo/Archive/nivo.#YYYY##MM#.csv.gz",
+    "station_collection" : "station",
+    "station_url" : "https://donneespubliques.meteofrance.fr/donnees_libres/Txt/Nivo/postesNivo.csv"
+
+}

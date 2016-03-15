@@ -1,0 +1,5 @@
+{
+    "spider_dir" : "skitour/skitour",
+    "spider_name" : "trip_skitour",
+    "meteofrance_dir" : "meteofrance"
+}
