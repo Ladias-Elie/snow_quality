@@ -13,7 +13,7 @@ def daily_job():
     os.chdir(current_dir)
     os.system("python predict_condition.py")
 
-schedule.every().day.at("08:00").do(daily_job)
+schedule.every(2).hour.do(daily_job)
 
 while True:
     schedule.run_pending()

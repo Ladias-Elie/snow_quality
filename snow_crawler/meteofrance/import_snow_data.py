@@ -4,6 +4,7 @@ import requests
 import json
 import sys
 import logging
+import re
 import pandas as pd
 
 from geojson import Point
@@ -140,17 +141,11 @@ def send_daily_data(date_to_send, url, schema, host, port,
 #do not write anything
     db = get_db(host, port, database)
     db = db[collection]
-    dates = [d[0:8] for d in db.distinct('date')]
 
     if date_to_send is None:
-        #Generate URL for  yesterday
         yesterday = date.today() - timedelta(1)
         date_to_send = yesterday.strftime('%Y%m%d')
-
-    if date_to_send in dates:
-        print 'database already have data for {0}'.format(date_to_send)
-        return 1
-
+        
     url = url.replace('########', date_to_send)
 
     try:
@@ -161,6 +156,11 @@ def send_daily_data(date_to_send, url, schema, host, port,
     daily_snow_data = convert_df_columns(daily_snow_df, schema)
 
     db = get_db(host, port, database)
+
+    #removing data from the same date to avoid duplicates
+    regx = re.compile(date_to_send, re.IGNORECASE)
+    query = {"date": regx}
+    db[collection].remove(query)
     send_data(db, collection, daily_snow_data)
     return 0
 

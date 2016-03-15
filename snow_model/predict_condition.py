@@ -186,11 +186,11 @@ def send_data(prediction, date, collection):
         skiability_json.append(skiablility_db.ix[ix,:].to_dict())
         try:
             db[collection].insert_one(skiablility_db.ix[ix,:].to_dict())
-            print 'WARNING: ' + skiablility_db.ix[ix,:].to_dict()['nom'] + 'inserted'
+            print 'WARNING: ' + skiablility_db.ix[ix,:].to_dict()['nom'] + ' inserted'
         except errors.DuplicateKeyError:
-            print 'WARNING: ' + skiablility_db.ix[ix,:].to_dict()['nom'] + 'already in database for that day'
+            print 'WARNING: ' + skiablility_db.ix[ix,:].to_dict()['nom'] + ' already in database for that day'
 
-    print 'INFO'+str(n)
+
 def main():
     snow_to_delete = ['aval_depart', 'aval_descr', 'aval_expo',
                   'aval_genre', 'etat_neige', 'nnuage1',
@@ -209,7 +209,11 @@ def main():
     #distance max to assign a trip to a meteostation
     trip_to_station_dist = 5
 
-    yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
+    if datetime.datetime.now().hour > 5:
+        yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
+    elif datetime.datetime.now().hour < 5:
+        yesterday = datetime.datetime.today() - datetime.timedelta(days=2)
+
     yesterday = yesterday.strftime('%Y%m%d')
     train, test = create_dataset('snow', snow_to_delete,
                                  'trip', trip_to_delete,

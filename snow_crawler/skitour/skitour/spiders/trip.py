@@ -18,7 +18,7 @@ class TripSpider(scrapy.Spider):
     def start_requests(self):
         "Overwrite start_request scrapy method"
         start_url = 'http://www.skitour.fr/topos/dernieres-sorties.php'
-        for p in range(0,5):
+        for p in range(0,150):
             url = start_url+'?p={0}'.format(p)
             yield scrapy.Request(url, self.parse)
 
