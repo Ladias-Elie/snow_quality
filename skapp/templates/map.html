@@ -1,0 +1,56 @@
+<html>
+<head>
+ <title>Snow map</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css"/>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ <style>
+   #map{ height: 100% }
+ </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+<script>
+
+// initialize the map
+var map = L.map('map').setView([45.2890, 5.7664], 10);
+
+// load a tile layer
+// https: also suppported.
+var Thunderforest_OpenCycleMap = L.tileLayer('http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+$.getJSON("https://snowqualityapp.herokuapp.com/prediction"
+, function(data){
+    L.geoJson(data, {
+    //     style: function(feature){
+    //         var fillColor,
+    //         ski = feature.properties.skiability;
+    //         console.log(ski);
+    //     if (ski == 1) fillColor = "#006837";
+    //     else if (ski == 2) fillColor = "#2DDA12";
+    //     else if (ski == 3) fillColor = "#1C12DA";
+    //     else if (ski == 4) fillColor = "#F90202";
+    //     else if (ski == 5) fillColor = "#040000";
+    //     else fillColor = "#f7f7f7";
+    //     return { color: "#999", weight: 1, fillColor: fillColor, fillOpacity: .6 };
+    // },
+    onEachFeature: function(feature, layer){
+        console.log(feature.properties.trips)
+        var text = ""
+        for (i = 0; i < feature.properties.trips.length; i++) {
+            text += "<li><span>" + feature.properties.trips[i].nom +": "+ "<strong>" + feature.properties.trips[i].skiability +"</strong>" + "</span></li>"
+
+            //text += "<strong> rando: </strong>" + feature.properties.trips[i].nom + " <strong>skiabilité: </strong>" + feature.properties.trips[i].skiability+ "<br>";
+        }
+        layer.bindPopup("<strong>" + feature.properties.name + "</strong><br/>" + "<ul>" + text + "</ul>")
+    }
+    }).addTo(map);
+});
+
+</script>
+</body>
+</html>
