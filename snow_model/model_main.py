@@ -12,8 +12,9 @@ with open('config.json', 'r') as f:
 def daily_job():
     os.chdir(current_dir)
     os.system("python predict_condition.py")
+    os.system("python create_app__database.py")
 
-schedule.every(2).hour.do(daily_job)
+schedule.every(1).hour.do(daily_job)
 
 while True:
     schedule.run_pending()

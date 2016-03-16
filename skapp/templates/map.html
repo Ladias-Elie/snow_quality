@@ -23,7 +23,7 @@ var Thunderforest_OpenCycleMap = L.tileLayer('http://{s}.tile.thunderforest.com/
 	attribution: '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-$.getJSON("https://snowqualityapp.herokuapp.com/prediction"
+$.getJSON("http://localhost:5000/prediction"
 , function(data){
     L.geoJson(data, {
     //     style: function(feature){
