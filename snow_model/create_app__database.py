@@ -50,5 +50,4 @@ for latlon in dep_latlon_list:
 
 app_db = client['app']
 app_db['prediction'].remove()
-for row in geojson_data:
-    app_db['prediction'].insert_one(row)
+app_db['prediction'].insert_many(geojson_data)
